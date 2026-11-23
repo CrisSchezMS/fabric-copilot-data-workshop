@@ -17,12 +17,18 @@
 
 Abre la documentación de cada servidor y verifica disponibilidad, versión,
 alcance y permisos. En VS Code, configura un servidor desde el catálogo o
-`.vscode/mcp.json` con la sintaxis vigente; usa entradas de configuración
+`.mcp.json` con la sintaxis vigente; usa entradas de configuración
 locales para URLs privadas y el flujo de inicio de sesión del servidor.
 Inspecciona la lista de herramientas antes de aceptar llamadas. Los MCP
 heredan los permisos de la identidad, no conceden acceso adicional y pueden
 tener herramientas de escritura; pedir «solo lectura» en el prompt no es un
 control de seguridad. Usa permisos RBAC y políticas del servidor.
+
+Para el harness Copilot actual, `.mcp.json` en la raíz usa `mcpServers`;
+este repositorio lo excluye de Git para evitar publicar destinos privados. La
+configuración heredada `.vscode/mcp.json` usa `servers` y puede requerir
+compatibilidad del editor. Revisa la [referencia vigente](https://code.visualstudio.com/docs/agents/reference/mcp-configuration).
+Añadir un endpoint no equivale a autenticarlo ni a validar una llamada.
 
 **Fabric Core MCP**: endpoint oficial
 `https://api.fabric.microsoft.com/v1/mcp/core`, Streamable HTTP y autenticación
@@ -34,14 +40,18 @@ de modelado: capacidades, licencias y permisos varían por servidor.
 **Azure DevOps MCP**: el [servidor remoto oficial](https://learn.microsoft.com/en-us/azure/devops/mcp-server/remote-mcp-server)
 usa `https://mcp.dev.azure.com/{organization}`; sustituye el marcador por tu
 organización localmente, sin publicarla. Autentica con tu identidad y descubre
-las herramientas. Para Wiki, habilita solo los permisos necesarios. Para
+las herramientas. El servidor remoto admite `X-MCP-Readonly: true` y
+`X-MCP-Toolsets: repos,wiki,wit` para limitar herramientas; conserva permisos
+adecuados. Para Wiki, habilita solo los permisos necesarios. Para
 mantenerla actualizada, detecta cambios mediante pipeline/PR, genera un
 borrador y pide revisión antes de publicar; conectar MCP no automatiza eventos.
 
 **Databricks**: sigue la [guía de MCP SQL](https://learn.microsoft.com/en-us/azure/databricks/agents/mcp-tools/databricks-sql)
 para el endpoint de tu workspace, autenticación, warehouse y permisos.
 Herramientas SQL pueden escribir: utiliza una identidad y un entorno
-restringidos a lectura y revisa las herramientas expuestas. Puede haber coste
+restringidos a lectura y revisa las herramientas expuestas. El servidor
+dispone de `execute_sql_read_only`; limitar herramientas en el cliente no
+sustituye los permisos del servidor. Puede haber coste
 al iniciar un SQL warehouse. Un workspace existente no demuestra acceso al
 data plane ni habilitación de Unity Catalog.
 

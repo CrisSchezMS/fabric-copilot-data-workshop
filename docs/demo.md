@@ -89,6 +89,24 @@ en pantalla compartida.
    REST oficial descrita en `conexiones.md`. Nunca dispares un fallo real para
    la demo sin aprobación.
 
+**Demo conectada de Databricks:** abre el notebook de prueba
+`copilot_data_workshop_scd2` y muestra su ejecución y las tablas `clientes` y
+`clientes_historico` dentro del esquema de demostración. Pregunta al MCP:
+«Con `execute_sql_read_only`, cuenta las versiones históricas y las vigentes
+en la tabla de demostración». Después pregunta por los notebooks que hayan
+escrito esa tabla y verifica los eventos mediante la consulta de linaje. El
+ejemplo devuelve tres versiones y dos vigentes; una consulta vacía de linaje
+no confirma que no existan dependencias. El código portátil es
+`examples/databricks_scd2_notebook.py`: hay que sustituir el catálogo de
+ejemplo y aprobar el destino antes de ejecutarlo. Es un ejemplo acotado, no
+un MERGE SCD2 de producción para cambios posteriores ni datos tardíos.
+
+**Demo conectada de ADF:** en Monitor, filtra la factory de prueba y abre la
+ejecución `demo_fallo_intencional`; su actividad `fallo_demo` falla a
+propósito con código `DEMO`. Contrasta con la API de consulta por ventana y
+estado descrita en conexiones. La definición genérica está en
+`examples/adf_pipeline_fallo.json`; desplegarla o ejecutarla consume recursos.
+
 ### 6. Cierre — 5 min
 
 Resume corporativo frente a proyecto con `docs/contexto.md`: estándares y

@@ -5,5 +5,6 @@ __pycache__/
 .env.*
 !.env.example
 .vscode/mcp.json
+.mcp.json
 evidence/
 .pytest_cache/
