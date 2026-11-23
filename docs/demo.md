@@ -51,19 +51,30 @@ en pantalla compartida.
 
 ### 4. Historificación SCD2 — 10 min
 
-1. Muestra `standards/scd2.md`, sus decisiones y la skill `scd2-databricks`.
-   Pide: **«Revisa esta referencia SCD2; diseña pruebas de reejecución,
-   nulos, duplicados y llegada tardía y explica qué faltaría para Delta»**.
-2. Ejecuta `python -m unittest tests.test_examples -v`. Enseña el cambio de
-   versión con intervalos semiabiertos y el rechazo de cambios ambiguos.
-3. Aclara que el algoritmo es local/secuencial: no es un MERGE ni una prueba
-   de concurrencia en Databricks. Para el cliente, acordar reglas y revisar
-   el SQL/PySpark antes de aprobar escrituras en una tabla de prueba.
-4. Si se ha desplegado el notebook `copilot_data_workshop_scd2`, ábrelo en
-   el workspace indicado y enseña sus celdas y el lakehouse vinculado. Al
-   ejecutarlo con autorización y capacidad activa, el ejemplo sintético
-   verifica tres versiones, dos vigentes y repetición idempotente. El cálculo
-   es en memoria y muestra un DataFrame Spark; no escribe tablas Delta.
+1. En Azure DevOps o GitHub abre el PR del estándar corporativo. Plantea:
+   «Todos los proyectos deben historificar igual, sin copiar lógica distinta
+   en cada notebook». Enseña la skill y el contrato que se revisan en el PR.
+2. En Copilot pide: **«Usa scd2-databricks para adaptar este estándar al
+   origen de clientes; explica garantías, pruebas y límites. No modifiques
+   tablas»**. Contrasta la propuesta con el contrato y el código del PR.
+3. En Databricks abre el notebook `copilot_data_workshop_scd2_estandar` y
+   muestra la salida de una ejecución validada. En Catalog Explorer abre la
+   tabla dedicada `clientes_scd2_estandar_demo` y comprueba sus tres versiones
+   y dos vigentes. Contrasta el rechazo de claves nulas, duplicados, llegadas
+   tardías y cambios contradictorios, y la reejecución sin cambios.
+4. Explica cómo otro proyecto adoptaría una versión revisada de la biblioteca
+   y skill mediante un PR, configurando su origen, claves y atributos. El
+   notebook usa datos ficticios; no borra ni sobrescribe tablas. Para retomar
+   explícitamente una tabla de demo vacía tras una ejecución fallida existe
+   el parámetro `resume_empty_demo_table`, desactivado por defecto.
+
+Explica que un único MERGE agrupa cierres e inserciones, pero **el único
+escritor debe garantizarlo el orquestador** y el origen debe permanecer
+inmutable durante validación y MERGE: esta demo no valida concurrencia, CDC,
+borrados ni recuperaciones retroactivas. Los tests locales comprueban el
+contrato; la validación Delta se ejecuta en Databricks, no en la CI local.
+El archivo `azure-pipelines.yml` es una definición manual y todavía no activa
+un pipeline ni políticas de rama; configurarlos requiere autorización.
 
 ### 5. Impacto y MCPs — 20 min
 

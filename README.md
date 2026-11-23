@@ -58,4 +58,9 @@ Las demostraciones conectadas dependen de permisos, licencias y conectores
 aprobados. Consulta [preparación y validación](docs/demo.md). Los datos del
 cliente, tokens, nombres internos y resultados reales nunca se publican aquí.
 
+El estándar SCD2 `corporate_scd2` 1.0.0 ofrece un MERGE Delta para
+instantáneas y se acompaña de una demo Databricks. Requiere un único escritor
+garantizado externamente y revisiones adicionales antes de producción:
+[contrato y límites](standards/scd2.md).
+
 [Fuentes oficiales](docs/fuentes.md) · [MIT](LICENSE)
