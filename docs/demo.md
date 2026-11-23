@@ -59,6 +59,11 @@ en pantalla compartida.
 3. Aclara que el algoritmo es local/secuencial: no es un MERGE ni una prueba
    de concurrencia en Databricks. Para el cliente, acordar reglas y revisar
    el SQL/PySpark antes de aprobar escrituras en una tabla de prueba.
+4. Si se ha desplegado el notebook `copilot_data_workshop_scd2`, ábrelo en
+   el workspace indicado y enseña sus celdas y el lakehouse vinculado. Al
+   ejecutarlo con autorización y capacidad activa, el ejemplo sintético
+   verifica tres versiones, dos vigentes y repetición idempotente. El cálculo
+   es en memoria y muestra un DataFrame Spark; no escribe tablas Delta.
 
 ### 5. Impacto y MCPs — 20 min
 
